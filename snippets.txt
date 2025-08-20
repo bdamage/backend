@@ -1,0 +1,41 @@
+ const ticket = await Ticket.aggregate([
+      {
+        $match: { _id: new mongoose.Types.ObjectId(id) },
+      },
+      { $unwind: "$_id" },
+      {
+        $lookup: {
+          from: "users",
+          localField: "requestor",
+          foreignField: "_id",
+          as: "requestee",
+        },
+      },
+      {
+        $lookup: {
+          from: "conversations",
+          localField: "_id",
+          foreignField: "parent",
+          as: "conversationee",
+        },
+      },
+      // define which fields are you want to fetch
+      {
+        $project: {
+          _id: 1,
+          number: 1,
+          short_description: 1,
+          state: 1,
+          channel: 1,
+          priority: 1,
+          requestor: {
+            $cond: {
+              if: { $eq: [null, "$requestee.username"] },
+              then: "$$REMOVE",
+              else: "$requestee.username",
+            },
+          },
+          conversation: "$conversationee.text",
+        },
+      },
+    ]); 

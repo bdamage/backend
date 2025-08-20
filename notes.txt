@@ -1,0 +1,65 @@
+
+
+Start MongoDB deamon:
+mongod --config ~/mongodb/mongodb.conf
+ ./mongod --config ~/mongodb/mongodb.conf      //use exact path
+
+
+Start from terminal:
+npm run db      // to start mongodb
+npm run dev
+
+
+
+Mongo playground:
+
+use('labzBACKEND');
+db.createCollection("employees")
+
+multi line editing:
+cmd+option - arrow up/down
+
+command + F then option + Enter for editing multi lines accross the doc
+
+
+
+ HTTP status codes discipline
+
+1xx informational response – the request was received, continuing process
+2xx successful – the request was successfully received, understood, and accepted
+3xx redirection – further action needs to be taken in order to complete the request
+4xx client error – the request contains bad syntax or cannot be fulfilled
+5xx server error – the server failed to fulfil an apparently valid request
+
+
+200 OK successful
+201 Created
+202 Accepted
+204 No Content
+
+400 Bad Request: This status code indicates that the request was malformed or invalid.
+401 Unautherized - failed login attempt
+403 Forbidden -  authorized and or logged in but doesn't have sufficient role access.
+405 Method Not Allowed - (GET / POST...)
+
+503 Service Unavailable: This status code is returned when the server is temporarily unable to handle the request. It’s often seen during periods of increased traffic or when the server is undergoing maintenance.
+
+
+
+https://blog.postman.com/best-practices-for-api-error-handling/
+
+good example:
+{
+  "status": "error", // This can be ‘error’ or ‘success’
+  "statusCode": 404,
+  "error": {
+    "code": "RESOURCE_NOT_FOUND",
+    "message": "The requested resource was not found.",
+    "details": "The user with the ID '12345' does not exist in our records.",
+    "timestamp": "2023-12-08T12:30:45Z",
+    "path": "/api/v1/users/12345",
+    "suggestion": "Please check if the user ID is correct or refer to our documentation at https://api.example.com/docs/errors#RESOURCE_NOT_FOUND for more information."
+  },
+  "requestId": "a1b2c3d4-e5f6-7890-g1h2-i3j4k5l6m7n8",
+  "documentation_url": "https://api.example.com/docs/errors"
+}
